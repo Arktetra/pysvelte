@@ -69,11 +69,11 @@ class SvelteComponent:
         attributes = [f"elem.setAttribute('{k}', '{v}');\n" for k, v in data.items()]
         
         html_str = f"""
-        <{element}-element id='{element_id}' />
+        <{element}-element id='{element_id}'></{element}-element>
         
         <script>
             (() => {{
-                elem = document.getElementById('{element_id}');
+                const elem = document.getElementById('{element_id}');
                 {"".join(attributes)}
             }})();
         </script>

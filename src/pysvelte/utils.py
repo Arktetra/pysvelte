@@ -60,8 +60,11 @@ def build_if_necessary(paths=None):
 def get_component_path(name):
     return config.SRC / f"{name}.svelte"
 
-def get_script_tag(path: Path):
+def get_script_tag(path: Path, dev_mode = False):
     build_if_necessary([path])
-    with open(config.DIST / path, "r") as stream:
-        tag = stream.read()
-    return f"<script>{tag}</script>"
+    if not dev_mode:
+        with open(config.DIST / path, "r") as stream:
+            tag = stream.read()
+        return f"<script>{tag}</script>"
+    else:
+        return f"<script src='{config.DIST / path}'></script>"
