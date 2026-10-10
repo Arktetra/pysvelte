@@ -2,8 +2,11 @@
 Abstractions for creating and rendering svelte component from python.
 """
 
+import os
 import re
+import time
 from inspect import Parameter, Signature
+from pathlib import Path
 
 import numpy as np
 
@@ -64,23 +67,27 @@ class SvelteComponent:
         return f"<SvelteComponent {self.name}>"
     
     def html(self, data):
-        element = self.name.lower()
         element_id = f"{self.name}-{hex(np.random.randint(10 ** 8))[2:16]}"
-        attributes = [f"elem.setAttribute('{k}', '{v}');\n" for k, v in data.items()]
+        rel_distance = Path(os.path.relpath(config.DIST, os.getcwd()))
+        timestamp = int(time.time())
         
         html_str = f"""
-        <{element}-element id='{element_id}'></{element}-element>
+        <div id='{element_id}'><div>
         
-        <script>
-            (() => {{
-                const elem = document.getElementById('{element_id}');
-                {"".join(attributes)}
-            }})();
+        <script type="module">
+            import {self.name}, {{ mount }} from "{rel_distance / f"{self.name}.es.js?t={timestamp}"}"
+            
+            const data = {data};
+            mount({self.name}, {{
+                target: document.getElementById("{element_id}"),
+                props: data,
+            }});
         </script>
         """
         
-        script_tags = [f"{self.name}.iife.js"]
-        return Html(html_str, script_tags=script_tags)
+        # script_tags = [f"{self.name}.es.js"]
+        script_paths = []
+        return Html(html_str, script_paths=script_paths)
         
     @staticmethod
     def autogenerate():

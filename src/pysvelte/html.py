@@ -4,9 +4,9 @@ from pysvelte import utils
 
 
 class Html:
-    def __init__(self, chunks, script_tags, title=None, description=None):
+    def __init__(self, chunks, script_paths, title=None, description=None):
         self.chunks = [chunks]
-        self.script_tags = script_tags
+        self.script_paths = script_paths
         self.title = title
         self.description = description
         
@@ -18,15 +18,15 @@ class Html:
         
     def inline_html_str(self):
         return f"""
-        {self.get_script_tags()}
+        {utils.get_script_tags(self.script_paths)}
         {self.html_str()}
         """
     
     def _repr_html_(self):
         return self.inline_html_str()
         
-    def get_script_tags(self, dev_mode=False):
-        return "\n".join([utils.get_script_tag(tag, dev_mode) for tag in self.script_tags])
+    # def get_script_tags(self, dev_mode=False):
+    #     return "\n".join([utils.get_script_tag(tag, dev_mode) for tag in self.script_paths])
     
     def show(self):
         try:

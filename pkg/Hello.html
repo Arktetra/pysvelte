@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <script src="../dist/Hello.iife.js"></script>
 
-    <hello-element id="Hello-Element-1" />
-    <script>
-        (() => {
-            elem = document.getElementById("Hello-Element-1");
-            elem.setAttribute("name", "Alpha");
-        })();
-    </script>
-</body>
-</html>
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Document</title>
+                </head>
+                <body>
+                    
+
+                    
+        <div id='Hello-3f9e9b2'><div>
+        
+        <script type="module">
+            import Hello, { mount } from "../dist/Hello.es.js?t=1791654801"
+            
+            const data = {'name': 'Alpha'};
+            mount(Hello, {
+                target: document.getElementById("Hello-3f9e9b2"),
+                props: data,
+            });
+        </script>
+        
+                </body>
+                </html>
+                

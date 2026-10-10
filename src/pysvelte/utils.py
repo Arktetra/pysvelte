@@ -68,3 +68,7 @@ def get_script_tag(path: Path, dev_mode = False):
         return f"<script>{tag}</script>"
     else:
         return f"<script src='{config.DIST / path}'></script>"
+    
+def get_script_tags(paths: list[Path], dev_mode=False):
+    build_if_necessary(paths)
+    return "\n".join([get_script_tag(path, dev_mode) for path in paths])
